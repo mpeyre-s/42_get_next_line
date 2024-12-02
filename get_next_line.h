@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:11:59 by mathispeyre       #+#    #+#             */
-/*   Updated: 2024/11/29 15:31:32 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2024/12/02 12:19:26 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(char *s, int c);
 char	*strdup_to_backslash(char *bank);
 char	*clean_bank(char *bank);
+char	*ft_strdup(const char *s);
 
 #endif

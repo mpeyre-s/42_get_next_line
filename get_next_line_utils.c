@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:26:51 by mathispeyre       #+#    #+#             */
-/*   Updated: 2024/11/29 15:37:16 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2024/12/02 12:23:22 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,58 +56,23 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-char	*strdup_to_backslash(char *bank)
+char	*ft_strdup(const char *s)
 {
-	size_t	len;
+	char	*str;
 	size_t	i;
-	char	*result;
-
-	len = 0;
-	while (bank[len] && bank[len] != '\n')
-		len++;
-	result = (char *)malloc((len + 2) * sizeof(char));
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		result[i] = bank[i];
-		i++;
-	}
-	result[i] = '\n';
-	result[i + 1] = '\0';
-	return (result);
-}
-
-char	*clean_bank(char *bank)
-{
-	size_t	len;
-	size_t	i;
-	size_t	i2;
-	char	*result;
 
 	i = 0;
-	while (bank[i] != '\n' && bank[i] != '\0')
+	while (s[i])
 		i++;
-	if (bank[i] == '\0')
-	{
-		free(bank);
+	str = (char *)malloc(sizeof(char) * (i + 1));
+	if (!str)
 		return (NULL);
-	}
-	i++;
-	len = 0;
-	while (bank[i + len] != '\0')
-		len++;
-	result = (char *)malloc((len + 1) * sizeof(char));
-	if (!result)
-		return (NULL);
-	i2 = 0;
-	while (i2 < len)
+	i = 0;
+	while (s[i])
 	{
-		result[i2] = bank[i + i2];
-		i2++;
+		str[i] = s[i];
+		i++;
 	}
-	result[i2] = '\0';
-	free(bank);
-	return (result);
+	str[i] = '\0';
+	return (str);
 }
