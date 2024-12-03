@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:26:51 by mathispeyre       #+#    #+#             */
-/*   Updated: 2024/12/03 11:37:32 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2024/12/03 13:40:05 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,7 @@ char	*clean_bank(char *bank)
 	while (bank[i] != '\n' && bank[i] != '\0')
 		i++;
 	if (bank[i] == '\0')
-	{
-		free(bank);
-		return (NULL);
-	}
+		return (free(bank), NULL);
 	j = ft_strlen(&bank[i + 1]);
 	result = (char *)malloc(j + 1);
 	if (!result)
