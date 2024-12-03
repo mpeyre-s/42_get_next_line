@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:26:13 by mathispeyre       #+#    #+#             */
-/*   Updated: 2024/12/03 11:25:32 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2024/12/03 11:31:38 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,16 @@ static char	*read_one_more_time(int fd, char *bank, ssize_t *bytes_read)
 
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
-		return (NULL);
+		return (free(bank), NULL);
 	*bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (*bytes_read < 0)
-	{
-		free(buffer);
-		return (NULL);
-	}
+		return (free(buffer), free(bank), NULL);
 	buffer[*bytes_read] = '\0';
 	new_bank = ft_strjoin(bank, buffer);
 	free(buffer);
 	if (!new_bank)
-	{
-		free(bank);
-		return (NULL);
-	}
+		return (free(bank), NULL);
+	free(bank);
 	return (new_bank);
 }
 
