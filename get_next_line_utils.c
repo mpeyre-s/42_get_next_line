@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:26:51 by mathispeyre       #+#    #+#             */
-/*   Updated: 2024/12/02 12:23:22 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2024/12/02 14:21:23 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,40 @@ char	*ft_strdup(const char *s)
 	}
 	str[i] = '\0';
 	return (str);
+}
+
+char	*clean_bank(char *bank)
+{
+	size_t	i;
+	size_t	j;
+	char	*result;
+
+	i = 0;
+	while (bank[i] != '\n' && bank[i] != '\0')
+		i++;
+	if (bank[i] == '\0')
+	{
+		free(bank);
+		return (NULL);
+	}
+	j = ft_strlen(&bank[i + 1]);
+	result = (char *)malloc(j + 1);
+	if (!result)
+		return (NULL);
+	j = 0;
+	while (bank[++i])
+		result[j++] = bank[i];
+	result[j] = '\0';
+	free(bank);
+	return (result);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
