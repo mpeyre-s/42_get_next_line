@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:26:13 by mathispeyre       #+#    #+#             */
-/*   Updated: 2024/12/02 14:25:58 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2024/12/03 11:07:00 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,22 @@ static char	*strdup_to_backslash(char *bank)
 
 static char	*read_one_more_time(int fd, char *bank, ssize_t *bytes_read)
 {
-	char	buffer[BUFFER_SIZE + 1];
+	char	*buffer;
 	char	*new_bank;
 
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+		return (NULL);
 	*bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (*bytes_read < 0)
 	{
+		free(buffer);
 		free(bank);
 		return (NULL);
 	}
-	if (*bytes_read == 0)
-		return (bank);
 	buffer[*bytes_read] = '\0';
 	new_bank = ft_strjoin(bank, buffer);
+	free(buffer);
 	free(bank);
 	return (new_bank);
 }
