@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:26:13 by mathispeyre       #+#    #+#             */
-/*   Updated: 2024/12/03 11:31:38 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2024/12/03 11:36:35 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ static char	*handle_eof(char **bank)
 
 	if (!bank || !*bank || **bank == '\0')
 	{
-		free(*bank);
+		if (*bank)
+			free(*bank);
 		*bank = NULL;
 		return (NULL);
 	}
@@ -112,10 +113,6 @@ char	*get_next_line(int fd)
 			return (process_existing_line(&bank));
 		bank = read_one_more_time(fd, bank, &bytes_read);
 		if (!bank || bytes_read == 0)
-		{
-			if (!bank)
-				free(bank);
 			return (handle_eof(&bank));
-		}
 	}
 }
