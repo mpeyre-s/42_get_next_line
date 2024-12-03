@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:26:13 by mathispeyre       #+#    #+#             */
-/*   Updated: 2024/12/03 11:18:09 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2024/12/03 11:25:32 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,27 @@ static char	*read_one_more_time(int fd, char *bank, ssize_t *bytes_read)
 	buffer[*bytes_read] = '\0';
 	new_bank = ft_strjoin(bank, buffer);
 	free(buffer);
-	free(bank);
+	if (!new_bank)
+	{
+		free(bank);
+		return (NULL);
+	}
 	return (new_bank);
 }
 
 static char	*process_existing_line(char **bank)
 {
+	char	*new_bank;
 	char	*line;
 
 	line = strdup_to_backslash(*bank);
-	*bank = clean_bank(*bank);
+	new_bank = clean_bank(*bank);
+	if (!new_bank)
+	{
+		free(line);
+		return (NULL);
+	}
+	*bank = new_bank;
 	return (line);
 }
 
@@ -76,6 +87,12 @@ static char	*handle_eof(char **bank)
 		return (NULL);
 	}
 	line = ft_strdup(*bank);
+	if (!line)
+	{
+		free(*bank);
+		*bank = NULL;
+		return (NULL);
+	}
 	free(*bank);
 	*bank = NULL;
 	return (line);
@@ -99,7 +116,11 @@ char	*get_next_line(int fd)
 		if (ft_strchr(bank, '\n'))
 			return (process_existing_line(&bank));
 		bank = read_one_more_time(fd, bank, &bytes_read);
-		if (!bank || (bytes_read == 0))
+		if (!bank || bytes_read == 0)
+		{
+			if (!bank)
+				free(bank);
 			return (handle_eof(&bank));
+		}
 	}
 }
