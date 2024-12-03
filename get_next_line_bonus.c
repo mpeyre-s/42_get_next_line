@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:26:13 by mathispeyre       #+#    #+#             */
-/*   Updated: 2024/12/03 13:02:16 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2024/12/03 13:15:54 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,18 @@ static char	*process_existing_line(char **bank)
 	char	*line;
 
 	line = strdup_to_backslash(*bank);
+	if (!line)
+	{
+		free(*bank);
+		*bank = NULL;
+		return (NULL);
+	}
 	new_bank = clean_bank(*bank);
 	if (!new_bank)
 	{
 		free(line);
+		free(*bank);
+		*bank = NULL;
 		return (NULL);
 	}
 	*bank = new_bank;
@@ -78,8 +86,10 @@ static char	*handle_eof(char **bank)
 	if (!bank || !*bank || **bank == '\0')
 	{
 		if (*bank)
+		{
 			free(*bank);
-		*bank = NULL;
+			*bank = NULL;
+		}
 		return (NULL);
 	}
 	line = ft_strdup(*bank);
@@ -112,7 +122,9 @@ char	*get_next_line(int fd)
 		if (ft_strchr(bank[fd], '\n'))
 			return (process_existing_line(&bank[fd]));
 		bank[fd] = read_one_more_time(fd, bank[fd], &bytes_read);
-		if (!bank[fd] || bytes_read == 0)
+		if (!bank[fd])
+			return (NULL);
+		if (bytes_read == 0)
 			return (handle_eof(&bank[fd]));
 	}
 }
