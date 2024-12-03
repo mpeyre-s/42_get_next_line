@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:26:13 by mathispeyre       #+#    #+#             */
-/*   Updated: 2024/12/03 11:07:00 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2024/12/03 11:18:09 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static char	*read_one_more_time(int fd, char *bank, ssize_t *bytes_read)
 	if (*bytes_read < 0)
 	{
 		free(buffer);
-		free(bank);
 		return (NULL);
 	}
 	buffer[*bytes_read] = '\0';
@@ -70,9 +69,7 @@ static char	*handle_eof(char **bank)
 {
 	char	*line;
 
-	if (!bank || !*bank)
-		return (NULL);
-	if (**bank == '\0')
+	if (!bank || !*bank || **bank == '\0')
 	{
 		free(*bank);
 		*bank = NULL;
@@ -93,10 +90,9 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (!bank)
 	{
-		bank = (char *)malloc(1);
+		bank = ft_strdup("");
 		if (!bank)
 			return (NULL);
-		bank[0] = '\0';
 	}
 	while (1)
 	{
